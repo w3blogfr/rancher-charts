@@ -1,0 +1,86 @@
+labels:
+  io.cattle.role: cluster # options are cluster/project
+  io.rancher.app_min_version: 7.3.8
+categories:
+- Database
+questions:
+- variable: defaultImage
+  default: true
+  description: "Use default Docker image"
+  label: Use Default Image
+  type: boolean
+  show_subquestion_if: false
+  group: "Container Images"
+  subquestions:
+  - variable: image.repository
+    default: "bitnami/phpmyadmin"
+    description: "PhpMyAdmin image name"
+    type: string
+    label: PhpMyAdmin Image Name
+  - variable: image.tag
+    default: "5.0.2-debian-10-r36"
+    description: "PhpMyAdmin image tag"
+    type: string
+    label: Image Tag
+- variable: defaultHost
+  default: false
+  description: "Set a default MySQL server"
+  label: Set a default MySQL server
+  type: boolean
+  show_subquestion_if: true
+  group: "MySQL"
+  subquestions:
+  - variable: db.host
+    description: "MySQL Host"
+    type: string
+    label: MySQL Host
+- variable: ingress.enabled
+  default: true
+  description: "Expose app using Layer 7 Load Balancer - ingress"
+  type: boolean
+  label: Expose app using Layer 7 Load Balancer
+  show_subquestion_if: true
+  group: "Services and Load Balancing"
+  subquestions:
+  - variable: ingress.hosts[0].name
+    default: "xip.io"
+    description: "Hostname to your PhpMyAdmin installation"
+    type: hostname
+    required: true
+    label: Hostname
+  - variable: ingress.hosts[0].path
+    default: "/"
+    description: "Subpath"
+    type: string
+    required: true
+    label: Subpath
+- variable: service.type
+  default: "NodePort"
+  description: "PhpMyAdmin Service type"
+  type: enum
+  show_if: "ingress.enabled=false"
+  options:
+  - "ClusterIP"
+  - "NodePort"
+  - "LoadBalancer"
+  required: true
+  label: PhpMyAdmin Service Type
+  show_subquestion_if: "NodePort"
+  group: "Services and Load Balancing"
+  subquestions:
+  - variable: service.nodePorts.http
+    default: ""
+    description: "NodePort http port(to set explicitly, choose port between 30000-32767)"
+    type: int
+    min: 30000
+    max: 32767
+    show_if: "ingress.enabled=false&&serviceType=NodePort"
+    label: NodePort Http Port
+  - variable: service.nodePorts.https
+    default: ""
+    description: "NodePort https port(to set explicitly, choose port between 30000-32767)"
+    type: int
+    min: 30000
+    max: 32767
+    show_if: "ingress.enabled=false&&serviceType=NodePort"
+    label: NodePort Https Port
