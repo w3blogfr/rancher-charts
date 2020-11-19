@@ -176,8 +176,8 @@ questions:
     default: "traefik.example.com"
     description: "Hostname to use for dashboard"
     label: Domain
-  - variable: dashboard.auth.basic
+  - variable: dashboard.auth.basic.traefik
     type: string
     default: ""
-    description: "Basic-Aut Protection for Dashboard"
+    description: "Password encoded for Dashboard (User is 'traefik')"
     label: Basic Auth
