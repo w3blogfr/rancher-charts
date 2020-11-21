@@ -54,6 +54,11 @@ questions:
     type: string
     required: true
     label: Subpath
+  - variable: ingress.rewriteTarget
+    default: false
+    description: "Rewrite target"
+    type: boolean
+    label: Rewrite target
 - variable: service.type
   default: "NodePort"
   description: "PhpMyAdmin Service type"
