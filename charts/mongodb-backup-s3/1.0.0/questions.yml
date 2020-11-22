@@ -1,0 +1,97 @@
+labels:
+  io.cattle.role: cluster # options are cluster/project
+  io.rancher.app_min_version: 7.3.8
+categories:
+- mongodb
+- backup
+questions:
+- variable: defaultImage
+  default: true
+  description: "Use default Docker image"
+  label: Use Default Image
+  type: boolean
+  show_subquestion_if: false
+  group: "Container Images"
+  subquestions:
+  - variable: image.repository
+    default: "w3blogfr/mongodb-backup-s3"
+    description: "MongoDB Backup image name"
+    type: string
+    label: MongoDB BackupImage Name
+  - variable: image.tag
+    default: "latest"
+    description: "MongoDB Backup image tag"
+    type: string
+    label: Image Tag
+- variable: mongodb.db
+  description: "Database name"
+  type: string
+  required: true
+  label: Database name
+  group: "MongoDB Settings"
+- variable: mongodb.host
+  description: "Database host"
+  default: "mongodb"
+  type: string
+  required: true
+  label: Database Host
+  group: "MongoDB Settings"
+- variable: mongodb.port
+  description: "Database Port"
+  default: 27017
+  type: int
+  required: true
+  label: Database Port
+  group: "MongoDB Settings"
+- variable: mongodb.password
+  type: string
+  label: MongoDB Password
+  group: "MongoDB Settings"
+  
+- variable: aws.enabled
+  default: true
+  description: "Send backup to AWS S3"
+  type: boolean
+  required: true
+  label: Enable AWS S3
+  show_subquestion_if: true
+  group: "AWS Settings"
+  subquestions:
+  - variable: aws.accessKey
+    description: "AWS Access Key"
+    type: string
+    label: AWS Access Key
+  - variable: aws.secretAccessKey
+    description: "AWS Secret Access Key"
+    type: string
+    label: AWS Secret Access Key
+  - variable: aws.bucketName
+    description: "Bucket Name"
+    type: string
+    label: Bucket Name
+  - variable: aws.bucketRegion
+    description: "Region AWS"
+    type: string
+    label: Region AWS
+  - variable: aws.bucketFolder
+    default: ""
+    description: "Bucket Folder"
+    type: string
+    label: Bucket Folder
+- variable: backup.initBackup
+  default: true
+  description: "Init backup"
+  type: boolean
+  label: Init backup
+  group: "Backup Settings"
+- variable: backup.initRestore
+  default: false
+  description: "Restore Lastest Backup"
+  type: boolean
+  label: Restore Lastest Backup
+  group: "Backup Settings"
+- variable: backup.notifierUrl
+  description: "Notifier URL"
+  type: string
+  label: Notifier URL
+  group: "Backup Settings"

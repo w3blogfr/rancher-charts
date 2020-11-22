@@ -1,0 +1,59 @@
+{{- if not .Values.backup.initRestore }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "mongodb.fullname" . }}
+  labels:
+    app: mongodb-backup-s3
+    app.kubernetes.io/name: mongodb-backup-s3
+spec:
+  replicas: 1
+  strategy: {}
+  selector:
+    matchLabels: 
+      app.kubernetes.io/name: mongodb-backup-s3
+  template:
+    metadata:
+      labels:
+        app: mongodb-backup-s3
+        app.kubernetes.io/name: mongodb-backup-s3
+    spec:
+      containers:
+        - name: mongodb-backup-s3
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+          env:
+            - name: MONGODB_DB
+              value: {{ .Values.mongodb.db | quote }}
+            - name: MONGODB_HOST
+              value: {{ .Values.mongodb.host | quote }}
+            - name: MONGODB_PORT
+              value: {{ .Values.mongodb.port | quote }}
+            - name: MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "mongodb.fullname" . }}-secret
+                  key: MONGODB_PASSWORD
+            - name: BACKUP_FOLDER
+              value: {{ .Values.aws.bucketFolder | quote }}
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "mongodb.fullname" . }}-secret
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "mongodb.fullname" . }}-secret
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: BUCKET
+              value: {{ .Values.aws.bucketName | quote }}
+            - name: BACKUP_FOLDER
+              value: {{ .Values.aws.bucketFolder | quote }}
+            - name: BUCKET_REGION
+              value: {{ .Values.aws.bucketRegion | quote }}
+            - name: INIT_BACKUP
+              value: {{ .Values.backup.initBackup | quote }}
+            - name: NOTIFIER_URL
+              value: {{ .Values.backup.notifierUrl | quote }}       
+{{- end }}
