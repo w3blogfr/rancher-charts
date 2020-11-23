@@ -1,49 +1,55 @@
 {{- if .Values.backup.initRestore }}
-apiVersion: v1
-kind: Pod
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: {{ template "mongodb.fullname" . }}-restore
   labels:
     app: mongodb-backup-s3-restore
     app.kubernetes.io/name: mongodb-backup-s3-restore
 spec:
-  containers:
-    - name: mongodb-backup-s3-restore
-      image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-      imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-      env:
-        - name: MONGODB_DB
-          value: {{ .Values.mongodb.db | quote }}
-        - name: MONGODB_HOST
-          value: {{ .Values.mongodb.host | quote }}
-        - name: MONGODB_PORT
-          value: {{ .Values.mongodb.port | quote }}
-        - name: MONGODB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ template "mongodb.fullname" . }}-secret
-              key: MONGODB_PASSWORD
-        - name: BACKUP_FOLDER
-          value: {{ .Values.aws.bucketFolder | quote }}
-        - name: AWS_ACCESS_KEY_ID
-          valueFrom:
-            secretKeyRef:
-              name: {{ template "mongodb.fullname" . }}-secret
-              key: AWS_ACCESS_KEY_ID
-        - name: AWS_SECRET_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              name: {{ template "mongodb.fullname" . }}-secret
-              key: AWS_SECRET_ACCESS_KEY
-        - name: BUCKET
-          value: {{ .Values.aws.bucketName | quote }}
-        - name: BACKUP_FOLDER
-          value: {{ .Values.aws.bucketFolder | quote }}
-        - name: BUCKET_REGION
-          value: {{ .Values.aws.bucketRegion | quote }}
-        - name: INIT_RESTORE
-          value: "true"
-        - name: DISABLE_CRON
-          value: "true"     
-  restartPolicy: Never              
+  template:
+    metadata:
+      labels:
+        app: mongodb-backup-s3-restore
+        app.kubernetes.io/name: mongodb-backup-s3-restore
+    spec:
+      containers:
+        - name: mongodb-backup-s3-restore
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+          env:
+            - name: MONGODB_DB
+              value: {{ .Values.mongodb.db | quote }}
+            - name: MONGODB_HOST
+              value: {{ .Values.mongodb.host | quote }}
+            - name: MONGODB_PORT
+              value: {{ .Values.mongodb.port | quote }}
+            - name: MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "mongodb.fullname" . }}-secret
+                  key: MONGODB_PASSWORD
+            - name: BACKUP_FOLDER
+              value: {{ .Values.aws.bucketFolder | quote }}
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "mongodb.fullname" . }}-secret
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "mongodb.fullname" . }}-secret
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: BUCKET
+              value: {{ .Values.aws.bucketName | quote }}
+            - name: BACKUP_FOLDER
+              value: {{ .Values.aws.bucketFolder | quote }}
+            - name: BUCKET_REGION
+              value: {{ .Values.aws.bucketRegion | quote }}
+            - name: INIT_RESTORE
+              value: "true"
+            - name: DISABLE_CRON
+              value: "true"     
+      restartPolicy: Never              
 {{- end }}
