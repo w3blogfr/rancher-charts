@@ -78,9 +78,11 @@ spec:
             - name: nexus-ui
               containerPort: {{ .Values.nexus.nexusPort }}
             {{- if .Values.nexus.docker.enabled }}
-            {{- range .Values.nexus.docker.registries }}
-            - name: docker-{{ .port }}
-              containerPort: {{ .port }}
+            {{- range $registry := .Values.nexus.docker.registries }}
+            {{ if $registry.port }}
+            - name: docker-{{ $registry.port }}
+              containerPort: {{ $registry.port }}
+            {{- end }}
             {{- end }}
             {{- end }}
           livenessProbe:

@@ -39,6 +39,7 @@ spec:
 
 {{ if .Values.nexus.docker.enabled }}
 {{ range $registry := .Values.nexus.docker.registries }}
+{{ if (and (not (eq $registry.host "")) $registry.port) }}
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
@@ -71,5 +72,6 @@ spec:
               serviceName: {{ $fullName | trunc 49 }}-docker-{{ $registry.port }}
               servicePort: {{ $registry.port }}
     {{- end }}
+{{- end }}
 {{- end }}
 {{- end }}

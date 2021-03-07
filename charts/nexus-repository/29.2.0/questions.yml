@@ -60,3 +60,81 @@ questions:
     type: hostname
     required: true
     label: Hostname
+    
+- variable: nexus.docker.enabled
+  default: true
+  description: "Enable docker registries"
+  type: boolean
+  label: Enable docker registries
+  group: "Docker Registries"
+- variable: nexus.docker.blank
+  default: ""
+  description: ""
+  type: string
+  label: "Empty field to go on next line"
+  group: "Docker Registries"
+  
+- variable: nexus.docker.registries[0].host
+  description: "Registry hostname"
+  type: string
+  label: Registry hostname n°1
+  show-if: "nexus.docker.enabled=true"
+  group: "Docker Registries"
+- variable: nexus.docker.registries[0].port
+  description: "Registry port"
+  type: string
+  label: Registry port n°1
+  show-if: "nexus.docker.enabled=true"
+  group: "Docker Registries"
+  
+- variable: nexus.docker.registries[1].host
+  description: "Registry hostname"
+  type: string
+  label: Registry hostname n°2
+  show-if: "nexus.docker.enabled=true"
+  group: "Docker Registries"
+- variable: nexus.docker.registries[1].port
+  description: "Registry port"
+  type: string
+  label: Registry port n°2
+  show-if: "nexus.docker.enabled=true"
+  group: "Docker Registries"
+  
+- variable: nexus.docker.registries[2].host
+  description: "Registry hostname"
+  type: string
+  label: Registry hostname n°3
+  show-if: "nexus.docker.enabled=true"
+  group: "Docker Registries"
+- variable: nexus.docker.registries[2].port
+  description: "Registry port"
+  type: string
+  label: Registry port n°3
+  show-if: "nexus.docker.enabled=true"
+  group: "Docker Registries"
+  
+- variable: nexus.docker.registries[3].host
+  description: "Registry hostname"
+  type: string
+  label: Registry hostname n°4
+  show-if: "nexus.docker.enabled=true"
+  group: "Docker Registries"
+- variable: nexus.docker.registries[3].port
+  description: "Registry port"
+  type: string
+  label: Registry port n°4
+  show-if: "nexus.docker.enabled=true"
+  group: "Docker Registries"
+  
+- variable: nexus.docker.registries[4].host
+  description: "Registry hostname"
+  type: string
+  label: Registry hostname n°5
+  show-if: "nexus.docker.enabled=true"
+  group: "Docker Registries"
+- variable: nexus.docker.registries[4].port
+  description: "Registry port"
+  type: string
+  label: Registry port n°5
+  show-if: "nexus.docker.enabled=true"
+  group: "Docker Registries"

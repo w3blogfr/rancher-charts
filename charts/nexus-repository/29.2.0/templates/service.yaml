@@ -31,6 +31,7 @@ spec:
 
 {{- if .Values.nexus.docker.enabled }}
 {{- range $registry := .Values.nexus.docker.registries }}
+{{ if $registry.port }}
 ---
 apiVersion: v1
 kind: Service
@@ -62,5 +63,6 @@ spec:
     {{- end }}
 {{- end }}
 
+{{- end }}
 {{- end }}
 {{- end }}
