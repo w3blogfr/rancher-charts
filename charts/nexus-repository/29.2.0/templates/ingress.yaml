@@ -56,10 +56,12 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
+  {{- if $registry.tls }}
   tls:
     - hosts:
       - {{ $registry.host | quote }}
       secretName: {{ $registry.secretName }}
+  {{- end }}
   rules:
     - host: {{ $registry.host }}
       http:

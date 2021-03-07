@@ -99,6 +99,7 @@ The following table lists the configurable parameters of the Nexus chart and the
 | `nexus.docker.registries`                   | Support multiple docker registries  | (see below)                             |
 | `nexus.docker.registries[0].host`           | Host for the docker registry        | `cluster.local`                         |
 | `nexus.docker.registries[0].port`           | Port for the docker registry        | `5000`                                  |
+| `nexus.docker.registries[0].tls`            | TLS boolean for the docker registry | false                                   |
 | `nexus.docker.registries[0].secretName`     | TLS Secret Name for the ingress     | `registrySecret`                        |
 | `nexus.env`                                 | Nexus environment variables         | `[{install4jAddVmParams: -Xms1200M -Xmx1200M -XX:MaxDirectMemorySize=2G -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap}]` |
 | `nexus.resources`                           | Nexus resource requests and limits  | `{}`                                    |
