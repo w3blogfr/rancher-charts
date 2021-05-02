@@ -1,0 +1,100 @@
+labels:
+  io.cattle.role: cluster # options are cluster/project
+categories:
+- CI/CD
+questions:
+- variable: defaultImage
+  default: true
+  description: "Use default Docker image"
+  label: Use Default Image
+  type: boolean
+  show_subquestion_if: false
+  group: "Container Images"
+  subquestions:
+  - variable: controller.image
+    default: "jenkins/jenkins"
+    description: "Jenkins image name"
+    type: string
+    label: Jenkins Image Name
+  - variable: controller.tag
+    default: "2.277.2-jdk11"
+    description: "Jenkins image tag"
+    type: string
+    label: Image Tag
+  - variable: controller.imagePullSecretName
+    default: ""
+    description: "Image Pull Secret"
+    type: string
+    label: Image Pull Secret
+    
+- variable: controller.adminUser
+  default: "admin"
+  description: "User of the application"
+  type: string
+  required: true
+  label: Jenkins Usernname
+  group: "Jenkins Settings"
+- variable: controller.adminPassword
+  default: ""
+  description: "password will be auto-generated if not specified"
+  type: password
+  label: Jenkins Password
+  group: "Jenkins Settings"
+- variable: controller.adminPassword
+  default: ""
+  description: "password will be auto-generated if not specified"
+  type: password
+  label: Jenkins Password
+  group: "Jenkins Settings"
+- variable: controller.plugins.enabled
+  default: false
+  required: true
+  description: "Jenkins Install Plugins"
+  type: boolean
+  label: Jenkins Install Plugins
+  show_subquestion_if: true
+  group: "Jenkins Plugins"
+  subquestions:
+  - variable: controller.plugins.multiline
+    default: ""
+    description: "List of plugins"
+    type: multiline
+    label: List of Plugins
+- variable: persistence.enabled
+  default: false
+  description: "Enable persistent volume for Jenkins"
+  type: boolean
+  required: true
+  label: Jenkins Persistent Volume Enabled
+  show_subquestion_if: true
+  group: "Jenkins Persistence"
+  subquestions:
+  - variable: persistence.size
+    default: "10Gi"
+    description: "hostName Persistent Volume Size"
+    type: string
+    label: Jenkins Volume Size
+  - variable: persistence.storageClass
+    default: ""
+    description: "If undefined or null, uses the default StorageClass. Default to null"
+    type: storageclass
+    label: Default StorageClass for Jenkins
+  - variable: persistence.existingClaim
+    default: ""
+    description: "If not empty, uses the specified existing PVC instead of creating new one"
+    type: pvc
+    label: Existing Persistent Volume Claim for Jenkins
+- variable: controller.ingress.enabled
+  default: true
+  description: "Expose app using Layer 7 Load Balancer - ingress"
+  type: boolean
+  label: Expose app using Layer 7 Load Balancer
+  show_subquestion_if: true
+  group: "Services and Load Balancing"
+  subquestions:
+  - variable: controller.ingress.hostName
+    default: "xip.io"
+    description: "Hostname to your Jenkins installation"
+    type: hostname
+    required: true
+    label: Hostname
