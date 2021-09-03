@@ -16,7 +16,9 @@ metadata:
     release: {{ .Release.Name | quote }}
     heritage: {{ .Release.Service | quote }}
 spec:
+  {{- if not (.Values.kind.daemonset) }}
   replicas: {{ default 1 .Values.replicas }}
+  {{- end }}
   selector:
     matchLabels:
       app: {{ template "traefik.name" . }}
