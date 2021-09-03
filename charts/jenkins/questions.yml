@@ -40,12 +40,6 @@ questions:
   type: password
   label: Jenkins Password
   group: "Jenkins Settings"
-- variable: controller.adminPassword
-  default: ""
-  description: "password will be auto-generated if not specified"
-  type: password
-  label: Jenkins Password
-  group: "Jenkins Settings"
 - variable: controller.plugins.enabled
   default: false
   required: true
