@@ -78,6 +78,38 @@ questions:
     description: "If not empty, uses the specified existing PVC instead of creating new one"
     type: pvc
     label: Existing Persistent Volume Claim for Jenkins
+- variable: controller.resourcesEnabled
+  default: true
+  description: "Enable Resources Allocation"
+  type: boolean
+  label: Enable Resources Allocation
+  show_subquestion_if: true
+  group: "Resources Allocation"
+  subquestions:
+  - variable: controller.resources.requests.cpu
+    default: "50m"
+    description: "CPU Reservation"
+    type: string
+    required: true
+    label: "CPU Reservation"
+  - variable: controller.resources.limits.cpu
+    default: "2000m"
+    description: "CPU Limit"
+    type: string
+    required: true
+    label: "CPU Limit"
+  - variable: controller.resources.requests.memory
+    default: "256Mi"
+    description: "Memory Reservation"
+    type: string
+    required: true
+    label: "Memory Reservation"
+  - variable: controller.resources.limits.memory
+    default: "4096Mi"
+    description: "Memory Limit"
+    type: string
+    required: true
+    label: "Memory Limit"
 - variable: controller.ingress.enabled
   default: true
   description: "Expose app using Layer 7 Load Balancer - ingress"

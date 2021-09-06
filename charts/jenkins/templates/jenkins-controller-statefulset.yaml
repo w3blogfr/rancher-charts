@@ -114,8 +114,10 @@ spec:
           env:
 {{ (tpl (toYaml .Values.controller.initContainerEnv) .) | indent 12 }}
             {{- end }}
+          {{- if .Values.controller.resourcesEnabled }}
           resources:
 {{ toYaml .Values.controller.resources | indent 12 }}
+          {{- end }}
           volumeMounts:
             - mountPath: {{ .Values.controller.jenkinsHome }}
               name: jenkins-home
@@ -199,8 +201,10 @@ spec:
 {{- if and .Values.controller.healthProbes .Values.controller.probes}}
 {{ tpl (toYaml .Values.controller.probes | indent 10) .}}
 {{- end }}
+          {{- if .Values.controller.resourcesEnabled }}
           resources:
 {{ toYaml .Values.controller.resources | indent 12 }}
+          {{- end }}
           volumeMounts:
 {{- if .Values.persistence.mounts }}
 {{ toYaml .Values.persistence.mounts | indent 12 }}
@@ -240,6 +244,10 @@ spec:
               mountPath: /run/secrets/chart-admin-password
               subPath: {{ .Values.controller.admin.passwordKey | default "jenkins-admin-password" }}
               readOnly: true
+            {{- end }}
+            {{- if .Values.controller.dockerInDocker.enabled }}
+            - mountPath: /var/run/docker.sock
+              name: docker-sock
             {{- end }}
             {{- range .Values.controller.additionalSecrets }}
             - name: jenkins-additional-secrets
@@ -323,7 +331,11 @@ spec:
       {{- end }}
       - name: sc-config-volume
         emptyDir: {}
-
+      {{- if .Values.controller.dockerInDocker.enabled }}
+      - name: docker-sock
+        hostPath:
+         path: /var/run/docker.sock
+      {- end }}
       {{- if .Values.controller.httpsKeyStore.enable }}
       - name: jenkins-https-keystore
         secret:

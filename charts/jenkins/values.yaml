@@ -29,6 +29,8 @@ controller:
   #      command:
   #      - "uname"
   #      - "-a"
+  dockerInDocker:
+   enabled: false
   disableRememberMe: false
   numExecutors: 0
   # configures the executor mode of the Jenkins node. Possible values are: NORMAL or EXCLUSIVE
@@ -58,6 +60,7 @@ controller:
   jenkinsRef: "/usr/share/jenkins/ref"
   # Path to the jenkins war file which is used by jenkins-plugin-cli.
   jenkinsWar: "/usr/share/jenkins/jenkins.war"
+  resourcesEnabled: false
   resources:
     requests:
       cpu: "50m"

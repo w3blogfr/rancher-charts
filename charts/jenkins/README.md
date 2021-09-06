@@ -681,3 +681,6 @@ Example : You execute Jenkins on k3s.
 
 This chart create a k8s volume and share it with Jenkins container (/var/jenkins_home).
 But if you use docker inside as agent, jenkins will communicate with docker (via sock file, and will default share /var/jenkins_home from the host (not from from jenkins containers) 
+
+In the chart, make sure controller.dockerInDocker.enabled is true, it will mount the volume /var/run/docker.sock inside the container.
+
