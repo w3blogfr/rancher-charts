@@ -11,7 +11,9 @@ docker-commons:1.17
 docker-workflow:1.26
 durable-task:1.38
 echarts-api:5.1.0-2
+email-ext:2.83
 font-awesome-api:5.15.3-2
+generic-webhook-trigger-plugin:1.76
 git-client:3.7.1
 git-server:1.9
 git:4.7.1
