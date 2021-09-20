@@ -18,7 +18,7 @@ questions:
     type: string
     label: Nexus Image Name
   - variable: image.tag
-    default: "3.29.2"
+    default: "3.34.0"
     description: "Nexus image tag"
     type: string
     label: Image Tag
