@@ -39,6 +39,12 @@ questions:
     type: string
     label: Metrics Image Tag
     show_if: "metrics.enabled=true"
+- variable: rootUser.password
+  default: "admin"
+  description: "Password for the root user, defaults to a random 10-character alphanumeric string if not set"
+  type: password
+  label: MariaDB Root Password
+  group: "Master Settings"
 - variable: db.user
   default: "admin"
   description: "Username of new user to create."
