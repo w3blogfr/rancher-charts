@@ -335,7 +335,7 @@ spec:
       - name: docker-sock
         hostPath:
          path: /var/run/docker.sock
-      {- end }}
+      {{- end }}
       {{- if .Values.controller.httpsKeyStore.enable }}
       - name: jenkins-https-keystore
         secret:
