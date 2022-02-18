@@ -84,7 +84,7 @@ questions:
   type: boolean
   label: Enable Resources Allocation
   show_subquestion_if: true
-  group: "Resources Allocation"
+  group: "Advanced"
   subquestions:
   - variable: controller.resources.requests.cpu
     default: "50m"
@@ -110,6 +110,12 @@ questions:
     type: string
     required: true
     label: "Memory Limit"
+- variable: controller.dockerInDocker.enabled
+  default: false
+  description: "Enable Docker in Docker"
+  type: boolean
+  label: Enable Docker in Docker
+  group: "Advanced"
 - variable: controller.ingress.enabled
   default: true
   description: "Expose app using Layer 7 Load Balancer - ingress"
