@@ -108,6 +108,10 @@ spec:
           volumeMounts:
             - mountPath: /nexus-data	
               name: {{ template "nexus.name" . }}-data
+            {{- if .Values.additional.persistence.enabled }}
+            - mountPath: /blob-store
+              name: {{ template "nexus.name" . }}-blob-store
+            {{- end }}
             {{- if .Values.config.enabled }}
             - mountPath: {{ .Values.config.mountPath }}
               name: {{ template "nexus.name" . }}-conf
@@ -137,6 +141,13 @@ spec:
           {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.existingClaim | default (printf "%s-%s" (include "nexus.fullname" .) "data") }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: {{ template "nexus.name" . }}-blob-store
+          {{- if .Values.additional.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.additional.persistence.existingClaim | default (printf "%s-%s" (include "nexus.fullname" .) "blob-store") }}
           {{- else }}
           emptyDir: {}
           {{- end }}

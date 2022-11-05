@@ -1,0 +1,30 @@
+{{- if and .Values.additional.persistence.enabled (not .Values.additional.persistence.existingClaim) }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ template "nexus.fullname" . }}-blob-store
+  labels:
+{{ include "nexus.labels" . | indent 4 }}
+    {{- if .Values.nexus.extraLabels }}
+      {{- with .Values.nexus.extraLabels }}
+        {{ toYaml . | indent 4 }}
+      {{- end }}
+    {{- end }}
+{{- if .Values.additional.persistence.annotations }}
+  annotations:
+{{ toYaml .Values.additional.persistence.annotations | indent 4 }}
+{{- end }}
+spec:
+  accessModes:
+    - {{ .Values.additional.persistence.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.additional.persistence.storageSize | quote }}
+{{- if .Values.additional.persistence.storageClass }}
+{{- if (eq "-" .Values.additional.persistence.storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: "{{ .Values.additional.persistence.storageClass }}"
+{{- end }}
+{{- end }}
+{{- end }}

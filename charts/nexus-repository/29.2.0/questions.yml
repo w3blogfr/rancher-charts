@@ -46,6 +46,30 @@ questions:
     description: "If not empty, uses the specified existing PVC instead of creating new one"
     type: pvc
     label: Existing Persistent Volume Claim for Nexus
+- variable: additional.persistence.enabled
+  default: false
+  description: "Additional persistent volume for Nexus Blob Store (/blob-store)"
+  type: boolean
+  required: true
+  label: Nexus Blob Store Persistent Volume Enabled
+  show_subquestion_if: true
+  group: "Persistence Settings"
+  subquestions:
+  - variable: additional.persistence.storageSize
+    default: "10Gi"
+    description: "Nexus Blob Store Persistent Volume Size"
+    type: string
+    label: Nexus Blob Store Volume Size
+  - variable: additional.persistence.storageClass
+    default: ""
+    description: "If undefined or null, uses the default StorageClass. Default to null"
+    type: storageclass
+    label: Default StorageClass for Nexus Blob Store
+  - variable: additional.persistence.existingClaim
+    default: ""
+    description: "If not empty, uses the specified existing PVC instead of creating new one"
+    type: pvc
+    label: Existing Persistent Volume Claim for Nexus Blob Store
 - variable: ingress.enabled
   default: true
   description: "Expose app using Layer 7 Load Balancer - ingress"
