@@ -1,0 +1,78 @@
+rancher_max_version: 2.6.2
+labels:
+  io.cattle.role: project # options are cluster/project
+categories:
+- Database
+- PostgreSQL
+- pgAdmin
+questions:
+- variable: defaultImage
+  default: true
+  description: "Use default Docker images"
+  label: Use Default Images
+  type: boolean
+  show_subquestion_if: false
+  group: "Container Images"
+  subquestions:
+  - variable: image.repository
+    default: "dpage/pgadmin4"
+    description: "pgAdmin image repository"
+    type: string
+    label: "pgAdmin image repository"
+  - variable: image.tag
+    default: "4:6.15"
+    description: "pgAdmin image tag"
+    type: string
+    label: Image Tag
+- variable: env.email
+  default: "admin"
+  description: "pgAdmin Email Account"
+  type: string
+  required: true
+  label: pgAdmin Email Account
+  group: "pgAdmin Settings"
+- variable: env.password
+  default: ""
+  description: "pgAdmin Password"
+  type: password
+  label: pgAdmin Password
+  group: "pgAdmin Settings"
+- variable: persistentVolume.enabled
+  default: "false"
+  description: "Enable persistence using PVC"
+  type: boolean
+  required: true
+  label: Persistent Volume Enabled
+  show_subquestion_if: true
+  group: "Persistent Volume"
+  subquestions:
+  - variable: persistentVolume.size
+    default: "8Gi"
+    description: "Volume Size"
+    type: string
+    label: Volume Size
+    required: true
+  - variable: persistentVolume.storageClass
+    default: ""
+    description: "If undefined or null, uses the default StorageClass. Defaults to null."
+    type: storageclass
+    label: Default storageClass
+  - variable: persistentVolume.existingClaim
+    default: ""
+    description: "If not empty, uses the specified existing PVC instead of creating new one"
+    type: pvc
+    label: Existing Persistent Volume Claim for pgAdmin
+- variable: ingress.enabled
+  default: true
+  description: "Expose app using Layer 7 Load Balancer - ingress"
+  type: boolean
+  label: Expose app using Layer 7 Load Balancer
+  show_subquestion_if: true
+  group: "Services and Load Balancing"
+  subquestions:
+  - variable: ingress.hosts[0].host
+    default: "xip.io"
+    description: "Hostname to your WordPress installation"
+    type: hostname
+    required: true
+    label: Hostname
