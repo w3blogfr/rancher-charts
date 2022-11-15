@@ -1,0 +1,6 @@
+dependencies:
+- name: bitnami-common
+  repository: file://../bitnami-common
+  version: 2.2.0
+digest: sha256:50f7015bc06dbe31ba383611d6f45746e4dbf7287918f9e450853357b8046872
+generated: "2022-11-15T01:53:47.2373929+01:00"
