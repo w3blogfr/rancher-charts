@@ -84,7 +84,14 @@ questions:
     type: hostname
     required: true
     label: Hostname
-    
+- variable: service.type
+  description: "Service type"
+  type: enum
+  label: Service Type
+  options:
+  - "ClusterIP"
+  - "NodePort"
+  group: "Services and Load Balancing"
 - variable: nexus.docker.enabled
   default: true
   description: "Enable docker registries"
